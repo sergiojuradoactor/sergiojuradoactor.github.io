@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book de fotos · Sergio Jurado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --text-primary: #111110;
+      --text-secondary: #6b6b67;
+      --text-tertiary: #9b9b97;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f5f4f0;
+      --border: rgba(0,0,0,0.12);
+      --border-strong: rgba(0,0,0,0.25);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; font-weight: 300; color: var(--text-primary); background: var(--bg-primary); -webkit-font-smoothing: antialiased; }
+    .site { max-width: 960px; margin: 0 auto; padding: 0 3rem; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 2.5rem 0 2rem; border-bottom: 0.5px solid var(--border); margin-bottom: 4rem; position: sticky; top: 0; background: var(--bg-primary); z-index: 10; }
+    .nav-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 400; letter-spacing: 0.02em; text-decoration: none; color: var(--text-primary); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-size: 12px; font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--text-primary); }
+    .page-title { font-family: 'Playfair Display', serif; font-size: 42px; font-weight: 400; margin-bottom: 0.5rem; }
+    .page-subtitle { font-size: 14px; color: var(--text-secondary); margin-bottom: 3rem; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 6rem; }
+    .gallery-item { aspect-ratio: 3/4; overflow: hidden; border-radius: 2px; cursor: pointer; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .gallery-item:hover img { transform: scale(1.03); }
+    .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 1000; align-items: center; justify-content: center; flex-direction: column; }
+    .overlay img { max-height: 85vh; max-width: 90vw; object-fit: contain; border-radius: 2px; }
+    .overlay-controls { display: flex; gap: 3rem; margin-top: 1.5rem; align-items: center; }
+    .overlay-btn { background: none; border: 1px solid rgba(255,255,255,0.3); color: white; font-size: 22px; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; transition: border-color 0.2s; }
+    .overlay-btn:hover { border-color: rgba(255,255,255,0.7); }
+    .overlay-counter { color: rgba(255,255,255,0.5); font-size: 13px; font-family: 'Jost', sans-serif; letter-spacing: 0.1em; }
+    .overlay-close { position: fixed; top: 2rem; right: 2rem; background: none; border: none; color: white; font-size: 24px; cursor: pointer; opacity: 0.6; transition: opacity 0.2s; }
+    .overlay-close:hover { opacity: 1; }
+    footer { padding: 2rem 0; border-top: 0.5px solid var(--border); display: flex; justify-content: space-between; font-size: 12px; color: var(--text-tertiary); }
+  </style>
+</head>
+<body>
+  <div class="site">
+    <nav>
+      <a href="index.html" class="nav-name">Sergio Jurado</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Inicio</a></li>
+        <li><a href="index.html#experiencia">Experiencia</a></li>
+        <li><a href="videobook.html">Videobook</a></li>
+        <li><a href="book.html" class="active">Book</a></li>
+        <li><a href="index.html#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+
+    <h1 class="page-title">Book de fotos</h1>
+    <p class="page-subtitle">Fotografía de actor · 2026</p>
+
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openGallery(0)"><img src="foto1.jpg" alt="Foto 1"></div>
+      <div class="gallery-item" onclick="openGallery(1)"><img src="foto2.jpg" alt="Foto 2"></div>
+      <div class="gallery-item" onclick="openGallery(2)"><img src="foto3.jpg" alt="Foto 3"></div>
+      <div class="gallery-item" onclick="openGallery(3)"><img src="foto4.jpg" alt="Foto 4"></div>
+      <div class="gallery-item" onclick="openGallery(4)"><img src="foto5.jpg" alt="Foto 5"></div>
+      <div class="gallery-item" onclick="openGallery(5)"><img src="foto6.jpg" alt="Foto 6"></div>
+    </div>
+
+    <div class="overlay" id="overlay">
+      <button class="overlay-close" onclick="closeGallery()">&#x2715;</button>
+      <img id="overlay-img" src="" alt="">
+      <div class="overlay-controls">
+        <button class="overlay-btn" onclick="changePhoto(-1)">&#8249;</button>
+        <span class="overlay-counter" id="overlay-counter"></span>
+        <button class="overlay-btn" onclick="changePhoto(1)">&#8250;</button>
+      </div>
+    </div>
+
+    <footer>
+      <span>Sergio Jurado · Actor</span>
+      <span>Madrid, 2026</span>
+    </footer>
+  </div>
+
+  <script>
+    var photos = ['foto1.jpg','foto2.jpg','foto3.jpg','foto4.jpg','foto5.jpg','foto6.jpg'];
+    var current = 0;
+    function openGallery(i) {
+      current = i;
+      document.getElementById('overlay-img').src = photos[current];
+      document.getElementById('overlay-counter').textContent = (current+1) + ' / ' + photos.length;
+      document.getElementById('overlay').style.display = 'flex';
+    }
+    function closeGallery() {
+      document.getElementById('overlay').style.display = 'none';
+    }
+    function changePhoto(dir) {
+      current = (current + dir + photos.length) % photos.length;
+      document.getElementById('overlay-img').src = photos[current];
+      document.getElementById('overlay-counter').textContent = (current+1) + ' / ' + photos.length;
+    }
+    document.getElementById('overlay').addEventListener('click', function(e) {
+      if(e.target === this) closeGallery();
+    });
+    document.addEventListener('keydown', function(e) {
+      if(document.getElementById('overlay').style.display === 'flex') {
+        if(e.key === 'ArrowLeft') changePhoto(-1);
+        if(e.key === 'ArrowRight') changePhoto(1);
+        if(e.key === 'Escape') closeGallery();
+      }
+    });
+  </script>
+</body>
+</html>
